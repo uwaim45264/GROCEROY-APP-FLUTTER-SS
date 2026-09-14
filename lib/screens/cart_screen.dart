@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../widgets/custom_widgets.dart';
 import '../widgets/app_theme.dart';
-import '../widgets/success_dialog.dart';
 import '../widgets/warning_dialog.dart';
 import '../controllers/cart_controller.dart';
+import 'checkout_screen.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
@@ -143,23 +143,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         const SizedBox(height: 15),
                         CustomButton(
                           text: "CHECKOUT NOW",
-                          onTap: () async {
+                          onTap: () {
                             if (cartItems.isEmpty) return;
-                            
-                            bool success = await cartController.checkout();
-                            if (success) {
-                              SuccessDialog.show(
-                                context,
-                                title: "Order Placed!",
-                                message: "Your purchase is successful.\nStocks have been updated.",
-                              );
-                            } else {
-                              WarningDialog.show(
-                                context,
-                                title: "Checkout Error",
-                                message: "Some items in your cart exceed available stock limits.",
-                              );
-                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CheckoutScreen(),
+                              ),
+                            );
                           },
                           color: AppColors.navyBlue,
                           icon: Icons.arrow_forward_rounded,
