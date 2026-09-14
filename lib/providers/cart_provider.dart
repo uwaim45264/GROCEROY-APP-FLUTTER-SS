@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/product.dart';
 import '../services/database_helper.dart';
 
@@ -10,9 +11,7 @@ class CartItem {
 }
 
 class CartProvider extends ChangeNotifier {
-  static final CartProvider _instance = CartProvider._internal();
-  factory CartProvider() => _instance;
-  CartProvider._internal() {
+  CartProvider() {
     _loadCart();
   }
 
@@ -92,3 +91,5 @@ class CartProvider extends ChangeNotifier {
     return index >= 0 ? _items[index].quantity : 0;
   }
 }
+
+final cartProvider = ChangeNotifierProvider<CartProvider>((ref) => CartProvider());

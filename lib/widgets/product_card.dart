@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'clay_container.dart';
@@ -9,7 +10,7 @@ import 'warning_dialog.dart';
 import '../models/product.dart';
 import '../controllers/cart_controller.dart';
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends ConsumerStatefulWidget {
   final Product product;
   final VoidCallback onTap;
   final int index;
@@ -22,33 +23,16 @@ class ProductCard extends StatefulWidget {
   });
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  ConsumerState<ProductCard> createState() => _ProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _ProductCardState extends ConsumerState<ProductCard> {
   int _selectedQuantity = 1;
-  final CartController _cartController = CartController();
-
-  @override
-  void initState() {
-    super.initState();
-    _cartController.addListener(_updateState);
-  }
-
-  @override
-  void dispose() {
-    _cartController.removeListener(_updateState);
-    super.dispose();
-  }
-
-  void _updateState() {
-    if (mounted) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
-
-    int currentStock = _cartController.getAvailableStock(widget.product.id, widget.product.stock);
+    final cartController = ref.watch(cartProvider);
+    int currentStock = cartController.getAvailableStock(widget.product.id, widget.product.stock);
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -182,7 +166,7 @@ class _ProductCardState extends State<ProductCard> {
                                 return;
                               }
 
-                              _cartController.addProduct(widget.product, quantity: _selectedQuantity);
+                              cartController.addProduct(widget.product, quantity: _selectedQuantity);
                               setState(() {
                                 _selectedQuantity = 1;
                               });

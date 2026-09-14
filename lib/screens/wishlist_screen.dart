@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../widgets/custom_widgets.dart';
@@ -8,36 +9,19 @@ import '../controllers/wishlist_controller.dart';
 import '../controllers/cart_controller.dart';
 import '../models/product.dart';
 
-class WishlistScreen extends StatefulWidget {
+class WishlistScreen extends ConsumerStatefulWidget {
   const WishlistScreen({super.key});
 
   @override
-  State<WishlistScreen> createState() => _WishlistScreenState();
+  ConsumerState<WishlistScreen> createState() => _WishlistScreenState();
 }
 
-class _WishlistScreenState extends State<WishlistScreen> {
-  final WishlistController _wishlistController = WishlistController();
-  final CartController _cartController = CartController();
-
-  @override
-  void initState() {
-    super.initState();
-    _wishlistController.addListener(_updateState);
-  }
-
-  @override
-  void dispose() {
-    _wishlistController.removeListener(_updateState);
-    super.dispose();
-  }
-
-  void _updateState() {
-    if (mounted) setState(() {});
-  }
-
+class _WishlistScreenState extends ConsumerState<WishlistScreen> {
   @override
   Widget build(BuildContext context) {
-    final wishlistItems = _wishlistController.items;
+    final wishlistController = ref.watch(wishlistProvider);
+    final cartController = ref.watch(cartProvider);
+    final wishlistItems = wishlistController.items;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -104,7 +88,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: wishlistItems.length,
                           itemBuilder: (context, index) {
-                            return _buildWishlistItem(context, wishlistItems[index], index);
+                            return _buildWishlistItem(context, cartController, wishlistItems[index], index);
                           },
                         ),
                 ),
@@ -117,7 +101,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 
-  Widget _buildWishlistItem(BuildContext context, Product product, int index) {
+  Widget _buildWishlistItem(BuildContext context, CartController cartController, Product product, int index) {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -195,7 +179,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    _cartController.addProduct(product, quantity: 1);
+                    cartController.addProduct(product, quantity: 1);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: AppColors.navyBlue,

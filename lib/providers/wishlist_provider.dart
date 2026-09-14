@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/product.dart';
 import '../services/database_helper.dart';
 
 class WishlistProvider extends ChangeNotifier {
-  // Singleton pattern to maintain state across the app
-  static final WishlistProvider _instance = WishlistProvider._internal();
-  factory WishlistProvider() => _instance;
-  WishlistProvider._internal() {
+  WishlistProvider() {
     _loadWishlist();
   }
 
@@ -58,3 +56,7 @@ class WishlistProvider extends ChangeNotifier {
     return _items.any((item) => item.id == productId);
   }
 }
+
+final wishlistProvider = ChangeNotifierProvider<WishlistProvider>((ref) {
+  return WishlistProvider();
+});

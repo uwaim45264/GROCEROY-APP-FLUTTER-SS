@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/product.dart';
 import '../services/database_helper.dart';
 
 class WishlistController extends ChangeNotifier {
-
   static final WishlistController _instance = WishlistController._internal();
   factory WishlistController() => _instance;
   WishlistController._internal() {
@@ -58,3 +58,7 @@ class WishlistController extends ChangeNotifier {
     return _items.any((item) => item.id == productId);
   }
 }
+
+final wishlistProvider = ChangeNotifierProvider<WishlistController>((ref) {
+  return WishlistController();
+});

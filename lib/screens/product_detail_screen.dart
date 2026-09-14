@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../widgets/custom_widgets.dart';
@@ -7,37 +8,21 @@ import '../widgets/warning_dialog.dart';
 import '../models/product.dart';
 import '../controllers/cart_controller.dart';
 
-class ProductDetailScreen extends StatefulWidget {
+class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product? product;
 
   const ProductDetailScreen({super.key, this.product});
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  ConsumerState<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   int quantity = 1;
-  final CartController _cartController = CartController();
-
-  @override
-  void initState() {
-    super.initState();
-    _cartController.addListener(_updateState);
-  }
-
-  @override
-  void dispose() {
-    _cartController.removeListener(_updateState);
-    super.dispose();
-  }
-
-  void _updateState() {
-    if (mounted) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
+    final cartController = ref.watch(cartProvider);
     final product = widget.product ?? Product(
       id: 'default',
       name: "Organic Banana",
@@ -48,10 +33,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       stock: 10,
     );
 
-
-
-    // HERE SHOW STOCK AS: Total Stock - Quantity already in Cart THIS COMMENT IS FOR ME TO REMMEBER ....
-    int currentStock = _cartController.getAvailableStock(product.id, product.stock);
+    int currentStock = cartController.getAvailableStock(product.id, product.stock);
     final double rawPrice = double.tryParse(product.price.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0;
     final String totalPriceString = (rawPrice * quantity).toStringAsFixed(2);
 
@@ -76,13 +58,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 20),
-                        
-
                         Center(
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-
                               Container(
                                 width: 300,
                                 height: 260,
@@ -125,15 +104,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ],
                           ),
                         ),
-                        
                         const SizedBox(height: 30),
-                        
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -154,7 +130,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                     ),
                                   ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.1, end: 0),
-                                  
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                     decoration: BoxDecoration(
@@ -172,9 +147,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ).animate().fadeIn(delay: 200.ms),
                                 ],
                               ),
-                              
                               const SizedBox(height: 12),
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,9 +187,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 ],
                               ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.1, end: 0),
-                              
                               const SizedBox(height: 20),
-
                               Row(
                                 children: [
                                   Container(
@@ -250,9 +221,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 ],
                               ).animate().fadeIn(delay: 400.ms),
-                              
                               const SizedBox(height: 30),
-
                               Text(
                                 "LOGISTICS & SPECIFICATIONS",
                                 style: GoogleFonts.shareTechMono(
@@ -271,10 +240,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   height: 1.6,
                                 ),
                               ).animate().fadeIn(delay: 500.ms),
-                              
                               const SizedBox(height: 30),
-                              
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -283,10 +249,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   _buildInfoCard(Icons.verified_user_outlined, "QUALITY CHECKED"),
                                 ],
                               ).animate().fadeIn(delay: 600.ms).scaleY(begin: 0.8),
-                              
                               const SizedBox(height: 30),
-                              
-
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
@@ -354,8 +317,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                 ),
-                
-
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                   child: CustomButton(
@@ -380,9 +341,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         return;
                       }
 
-                      _cartController.addProduct(product, quantity: quantity);
+                      cartController.addProduct(product, quantity: quantity);
                       setState(() {
-                        quantity = 1; // Reset quantity after adding to cart THIS IS ONLY FOR ME TO REMEMBER ....
+                        quantity = 1;
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

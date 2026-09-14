@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/product.dart';
 import '../services/database_helper.dart';
 
@@ -43,7 +44,6 @@ class CartController extends ChangeNotifier {
     }
     return _productStocks[productId]!;
   }
-
 
   int getAvailableStock(String productId, int defaultStock) {
     int totalStock = getStock(productId, defaultStock);
@@ -109,10 +109,8 @@ class CartController extends ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<bool> checkout() async {
     if (_items.isEmpty) return false;
-
 
     for (var item in _items) {
       int currentStock = getStock(item.product.id, item.product.stock);
@@ -120,7 +118,6 @@ class CartController extends ChangeNotifier {
         return false; // Not enough stock for checkout THIS ONLY FOR ME TO REMEMBER UWAIM
       }
     }
-
 
     for (var item in _items) {
       _productStocks[item.product.id] = getStock(item.product.id, item.product.stock) - item.quantity;
@@ -136,3 +133,7 @@ class CartController extends ChangeNotifier {
     return index >= 0 ? _items[index].quantity : 0;
   }
 }
+
+final cartProvider = ChangeNotifierProvider<CartController>((ref) {
+  return CartController();
+});

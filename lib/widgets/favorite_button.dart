@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_theme.dart';
 import '../models/product.dart';
 import '../controllers/wishlist_controller.dart';
 
-class FavoriteButton extends StatefulWidget {
+class FavoriteButton extends ConsumerWidget {
   final Product? product;
   final double size;
 
@@ -14,35 +15,13 @@ class FavoriteButton extends StatefulWidget {
   });
 
   @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<FavoriteButton> {
-  final WishlistController _wishlistController = WishlistController();
-
-  @override
-  void initState() {
-    super.initState();
-    _wishlistController.addListener(_updateState);
-  }
-
-  @override
-  void dispose() {
-    _wishlistController.removeListener(_updateState);
-    super.dispose();
-  }
-
-  void _updateState() {
-    if (mounted) setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.product == null) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (product == null) {
       return Container();
     }
 
-    bool isFavorite = _wishlistController.isFavorite(widget.product!.id);
+    final wishlistController = ref.watch(wishlistProvider);
+    bool isFavorite = wishlistController.isFavorite(product!.id);
 
     return Container(
       padding: const EdgeInsets.all(5),
@@ -52,11 +31,11 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       ),
       child: GestureDetector(
         onTap: () {
-          _wishlistController.toggleFavorite(widget.product!);
+          wishlistController.toggleFavorite(product!);
         },
         child: Icon(
           isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-          size: widget.size,
+          size: size,
           color: isFavorite ? Colors.redAccent : AppColors.navyBlue.withOpacity(0.2),
         ),
       ),

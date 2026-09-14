@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../widgets/custom_widgets.dart';
@@ -7,35 +8,18 @@ import '../widgets/success_dialog.dart';
 import '../widgets/warning_dialog.dart';
 import '../controllers/cart_controller.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
 
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  ConsumerState<CartScreen> createState() => _CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
-  final CartController _cartController = CartController();
-
-  @override
-  void initState() {
-    super.initState();
-    _cartController.addListener(_updateState);
-  }
-
-  @override
-  void dispose() {
-    _cartController.removeListener(_updateState);
-    super.dispose();
-  }
-
-  void _updateState() {
-    if (mounted) setState(() {});
-  }
-
+class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final cartItems = _cartController.items;
+    final cartController = ref.watch(cartProvider);
+    final cartItems = cartController.items;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -52,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
                   rightIcon: Icons.delete_outline_rounded,
                   onRightIconTap: () {
                     if (cartItems.isNotEmpty) {
-                      _cartController.clearCart();
+                      cartController.clearCart();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: AppColors.navyBlue,
@@ -118,7 +102,7 @@ class _CartScreenState extends State<CartScreen> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: cartItems.length,
                           itemBuilder: (context, index) {
-                            return _buildCartItem(cartItems[index], index);
+                            return _buildCartItem(cartController, cartItems[index], index);
                           },
                         ),
                 ),
@@ -147,7 +131,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             Text(
-                              "Rs ${_cartController.totalValue.toStringAsFixed(2)}",
+                              "Rs ${cartController.totalValue.toStringAsFixed(2)}",
                               style: GoogleFonts.orbitron(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,
@@ -162,7 +146,7 @@ class _CartScreenState extends State<CartScreen> {
                           onTap: () async {
                             if (cartItems.isEmpty) return;
                             
-                            bool success = await _cartController.checkout();
+                            bool success = await cartController.checkout();
                             if (success) {
                               SuccessDialog.show(
                                 context,
@@ -193,8 +177,8 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildCartItem(CartItem item, int index) {
-    int currentStock = _cartController.getStock(item.product.id, item.product.stock);
+  Widget _buildCartItem(CartController cartController, CartItem item, int index) {
+    int currentStock = cartController.getStock(item.product.id, item.product.stock);
 
     return ClayContainer(
       margin: const EdgeInsets.only(bottom: 12),
@@ -275,7 +259,7 @@ class _CartScreenState extends State<CartScreen> {
                 );
                 return;
               }
-              _cartController.updateQuantity(item.product.id, qty);
+              cartController.updateQuantity(item.product.id, qty);
             },
           ),
         ],
