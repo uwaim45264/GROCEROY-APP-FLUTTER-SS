@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../providers/products_provider.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custom_widgets.dart';
-import '../models/product.dart';
-
 import 'wishlist_screen.dart';
 import 'cart_screen.dart';
 import 'notifications_screen.dart';
@@ -51,54 +51,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-class DashboardContent extends StatelessWidget {
+class DashboardContent extends ConsumerWidget {
   const DashboardContent({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // THIS IS THE SAMPLE DATA LATER ON I WILL BE FETCHING FROM THE DATABASE ...................
-    final List<Product> popularDeals = [
-      Product(
-        id: 'p1',
-        name: "Organic Banana",
-        price: "Rs 4.99",
-        weight: "1KG",
-        imagePath: 'assets/images/2.jpg',
-        icon: Icons.eco_rounded,
-        bgColor: AppColors.cream,
-        stock: 12,
-      ),
-      Product(
-        id: 'p2',
-        name: "Red Apple",
-        price: "Rs 2.49",
-        weight: "1KG",
-        imagePath: 'assets/images/3.jpg',
-        icon: Icons.eco_rounded,
-        bgColor: Colors.red[50],
-        stock: 5,
-      ),
-      Product(
-        id: 'p3',
-        name: "Fresh Ginger",
-        price: "Rs 1.99",
-        weight: "1KG",
-        imagePath: 'assets/images/4.jpg',
-        icon: Icons.eco_rounded,
-        bgColor: Colors.orange[50],
-        stock: 0, // Testing Out of Stock
-      ),
-      Product(
-        id: 'p4',
-        name: "Bell Pepper",
-        price: "Rs 3.25",
-        weight: "1KG",
-        imagePath: 'assets/images/5.jpg',
-        icon: Icons.eco_rounded,
-        bgColor: Colors.green[50],
-        stock: 8,
-      ),
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final popularDeals = ref.watch(popularDealsProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,

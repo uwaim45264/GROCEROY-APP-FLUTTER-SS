@@ -18,8 +18,30 @@ class Product {
     required this.imagePath,
     this.icon = Icons.eco_rounded,
     this.bgColor,
-    this.stock = 10, // Default stock THIS ONLY FOR ME TO REMEBER UWAIM
+    this.stock = 10,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'weight': weight,
+      'imagePath': imagePath,
+      'stock': stock,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      price: map['price'] ?? '',
+      weight: map['weight'] ?? '',
+      imagePath: map['imagePath'] ?? '',
+      stock: map['stock'] ?? 10,
+    );
+  }
 
   @override
   bool operator ==(Object other) =>

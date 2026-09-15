@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../data_models/products_data_model.dart';
 import 'clay_container.dart';
 import 'favorite_button.dart';
 import 'compact_quantity_selector.dart';
 import 'app_theme.dart';
 import 'warning_dialog.dart';
-import '../models/product.dart';
 import '../controllers/cart_controller.dart';
 
 class ProductCard extends ConsumerStatefulWidget {

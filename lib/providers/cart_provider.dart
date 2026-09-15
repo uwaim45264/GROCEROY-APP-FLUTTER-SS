@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/product.dart';
+import '../data_models/cart_data_model.dart';
+import '../data_models/products_data_model.dart';
+
 import '../services/database_helper.dart';
-
-class CartItem {
-  final Product product;
-  int quantity;
-
-  CartItem({required this.product, this.quantity = 1});
-}
 
 class CartProvider extends ChangeNotifier {
   CartProvider() {

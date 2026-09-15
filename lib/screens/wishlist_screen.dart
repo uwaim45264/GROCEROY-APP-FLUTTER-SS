@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../data_models/products_data_model.dart';
 import '../widgets/custom_widgets.dart';
 import 'product_detail_screen.dart';
 import '../widgets/app_theme.dart';
 import '../controllers/wishlist_controller.dart';
 import '../controllers/cart_controller.dart';
-import '../models/product.dart';
-
 class WishlistScreen extends ConsumerStatefulWidget {
   const WishlistScreen({super.key});
 

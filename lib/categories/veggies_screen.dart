@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../data_models/products_data_model.dart';
 import '../screens/product_detail_screen.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custom_widgets.dart';
-import '../models/product.dart';
 
 class VeggiesScreen extends StatelessWidget {
   const VeggiesScreen({super.key});

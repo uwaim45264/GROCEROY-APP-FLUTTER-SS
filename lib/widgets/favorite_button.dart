@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../data_models/products_data_model.dart';
 import 'app_theme.dart';
-import '../models/product.dart';
 import '../controllers/wishlist_controller.dart';
 
 class FavoriteButton extends ConsumerWidget {

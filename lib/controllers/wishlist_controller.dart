@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/product.dart';
+import '../data_models/products_data_model.dart';
 import '../services/database_helper.dart';
 
 class WishlistController extends ChangeNotifier {

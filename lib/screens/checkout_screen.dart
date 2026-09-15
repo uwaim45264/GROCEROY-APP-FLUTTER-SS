@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../data_models/cart_data_model.dart';
 import '../widgets/custom_widgets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/success_dialog.dart';
