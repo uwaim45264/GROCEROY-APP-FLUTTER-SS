@@ -10,6 +10,7 @@ import 'cart_screen.dart';
 import 'notifications_screen.dart';
 import 'product_detail_screen.dart';
 import 'all_categories_screen.dart';
+import 'profile_screen.dart';
 import '../categories/fruits_screen.dart';
 import '../categories/veggies_screen.dart';
 import '../categories/dairy_screen.dart';
@@ -70,8 +71,12 @@ class DashboardContent extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-                  const CustomAppBar(
+                  CustomAppBar(
                     rightIcon: Icons.person_outline_rounded,
+                    onRightIconTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Padding(
@@ -236,8 +241,8 @@ class DashboardContent extends ConsumerWidget {
                           product: popularDeals[index],
                           index: index,
                           onTap: () => Navigator.push(
-                            context, 
-                            MaterialPageRoute(builder: (context) => ProductDetailScreen(product: popularDeals[index]))
+                              context,
+                              MaterialPageRoute(builder: (context) => ProductDetailScreen(product: popularDeals[index]))
                           ),
                         );
                       },
