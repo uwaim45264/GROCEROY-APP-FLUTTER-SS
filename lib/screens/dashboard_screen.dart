@@ -15,8 +15,6 @@ import '../categories/fruits_screen.dart';
 import '../categories/veggies_screen.dart';
 import '../categories/dairy_screen.dart';
 import '../categories/meat_screen.dart';
-import '../categories/bakery_screen.dart';
-import '../categories/beverages_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
