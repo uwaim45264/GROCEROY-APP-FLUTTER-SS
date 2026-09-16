@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../data_models/products_data_model.dart';
+import '../providers/veggies_provider.dart';
 import '../screens/product_detail_screen.dart';
+import '../widgets/product_card.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custom_widgets.dart';
 
-class VeggiesScreen extends StatelessWidget {
+class VeggiesScreen extends ConsumerWidget {
   const VeggiesScreen({super.key});
 
-  static final List<Product> products = [
-    Product(id: 'v1', name: "Fresh Broccoli", weight: "500G", price: "Rs 2.99", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.green),
-    Product(id: 'v2', name: "Organic Carrots", weight: "1KG", price: "Rs 1.50", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.orange),
-    Product(id: 'v3', name: "Bell Pepper", weight: "3 UNITS", price: "Rs 3.25", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.red),
-    Product(id: 'v4', name: "Baby Spinach", weight: "250G", price: "Rs 1.99", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.green),
-    Product(id: 'v5', name: "Cucumber", weight: "1 UNIT", price: "Rs 0.99", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.green),
-    Product(id: 'v6', name: "Fresh Tomato", weight: "1KG", price: "Rs 2.49", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.red),
-  ];
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final products = ref.watch(veggiesProductsProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(

@@ -21,6 +21,53 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   int quantity = 1;
 
+  void _showImagePopup(BuildContext context, Product product) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.9),
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.zero,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Tap outside to close
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                color: Colors.transparent,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            // Full Image with Zoom support
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: product.imagePath.contains('assets')
+                  ? InteractiveViewer(
+                      maxScale: 5.0,
+                      child: Image.asset(
+                        product.imagePath,
+                        fit: BoxFit.contain,
+                      ),
+                    )
+                  : Icon(product.icon, size: 200, color: Colors.white),
+            ),
+            // Close Button
+            Positioned(
+              top: 40,
+              right: 20,
+              child: IconButton(
+                icon: const Icon(Icons.close_rounded, color: Colors.white, size: 36),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartController = ref.watch(cartProvider);
@@ -78,27 +125,30 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               ).animate(onPlay: (controller) => controller.repeat(reverse: true))
                                .scale(begin: const Offset(0.95, 0.95), end: const Offset(1.05, 1.05), duration: 2500.ms, curve: Curves.easeInOut),
                               
-                              ClayContainer(
-                                height: 260,
-                                width: 300,
-                                borderRadius: 32,
-                                spread: 12,
-                                depth: 20,
-                                color: Colors.white,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(32),
-                                  child: Hero(
-                                    tag: 'product_${product.name}',
-                                    child: product.imagePath.contains('assets') 
-                                      ? Image.asset(
-                                          product.imagePath, 
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        )
-                                      : Center(
-                                          child: Icon(product.icon, size: 100, color: AppColors.lightGreen),
-                                        ),
+                              GestureDetector(
+                                onTap: () => _showImagePopup(context, product),
+                                child: ClayContainer(
+                                  height: 260,
+                                  width: 300,
+                                  borderRadius: 32,
+                                  spread: 12,
+                                  depth: 20,
+                                  color: Colors.white,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(32),
+                                    child: Hero(
+                                      tag: 'product_${product.name}',
+                                      child: product.imagePath.contains('assets') 
+                                        ? Image.asset(
+                                            product.imagePath, 
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                          )
+                                        : Center(
+                                            child: Icon(product.icon, size: 100, color: AppColors.lightGreen),
+                                          ),
+                                    ),
                                   ),
                                 ),
                               ).animate().scale(duration: 700.ms, curve: Curves.easeOutBack),

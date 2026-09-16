@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../data_models/products_data_model.dart';
+import '../providers/fruits_provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custom_widgets.dart';
 
-
-class FruitsScreen extends StatelessWidget {
+class FruitsScreen extends ConsumerWidget {
   const FruitsScreen({super.key});
 
-  static final List<Product> products = [
-    Product(id: 'f1', name: "Red Apple", weight: "1KG", price: "Rs 4.99", imagePath: "assets/images/2.jpg", bgColor: Colors.red),
-    Product(id: 'f2', name: "Organic Banana", weight: "1KG", price: "Rs 2.50", imagePath: "assets/images/3.jpg", bgColor: Colors.yellow),
-    Product(id: 'f3', name: "Sweet Orange", weight: "1KG", price: "Rs 3.99", imagePath: "assets/images/4.jpg", bgColor: Colors.orange),
-    Product(id: 'f4', name: "Purple Grapes", weight: "500G", price: "Rs 5.50", imagePath: "assets/images/5.jpg", bgColor: Colors.purple),
-    Product(id: 'f5', name: "Fresh Strawberry", weight: "250G", price: "Rs 4.50", imagePath: "assets/images/1.jpg", bgColor: Colors.redAccent),
-    Product(id: 'f6', name: "Pineapple", weight: "1 UNIT", price: "Rs 6.00", imagePath: "assets/images/2.jpg", bgColor: Colors.amber),
-  ];
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final products = ref.watch(fruitsProductsProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
