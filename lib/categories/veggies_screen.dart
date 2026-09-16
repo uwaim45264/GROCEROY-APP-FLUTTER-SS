@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../providers/veggies_provider.dart';
+import '../data_models/products_data_model.dart';
 import '../screens/product_detail_screen.dart';
 import '../widgets/product_card.dart';
 import '../widgets/app_theme.dart';
@@ -11,9 +11,17 @@ import '../widgets/custom_widgets.dart';
 class VeggiesScreen extends ConsumerWidget {
   const VeggiesScreen({super.key});
 
+  static final List<Product> products = [
+    Product(id: 'm1', name: "Beef Steak", weight: "1KG", price: "Rs 15.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.red, icon: Icons.kebab_dining_rounded),
+    Product(id: 'm2', name: "Chicken Breast", weight: "1KG", price: "Rs 8.50", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.orange, icon: Icons.kebab_dining_rounded),
+    Product(id: 'm3', name: "Salmon Fillet", weight: "500G", price: "Rs 12.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.pink, icon: Icons.set_meal_rounded),
+    Product(id: 'm4', name: "Lamb Chops", weight: "1KG", price: "Rs 18.50", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.brown, icon: Icons.kebab_dining_rounded),
+    Product(id: 'm5', name: "Pork Ribs", weight: "1KG", price: "Rs 10.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.redAccent, icon: Icons.kebab_dining_rounded),
+    Product(id: 'm6', name: "Fresh Shrimp", weight: "500G", price: "Rs 9.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.orangeAccent, icon: Icons.set_meal_rounded),
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final products = ref.watch(veggiesProductsProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
