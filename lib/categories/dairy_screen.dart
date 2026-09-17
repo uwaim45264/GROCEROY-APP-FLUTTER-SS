@@ -21,8 +21,11 @@ class DairyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -57,7 +60,7 @@ class DairyScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                     ],

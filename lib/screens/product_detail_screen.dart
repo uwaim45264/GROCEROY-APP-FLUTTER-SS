@@ -70,6 +70,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final cartController = ref.watch(cartProvider);
     final product = widget.product ?? Product(
       id: 'default',
@@ -86,7 +88,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     final String totalPriceString = (rawPrice * quantity).toStringAsFixed(2);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -133,7 +135,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                   borderRadius: 32,
                                   spread: 12,
                                   depth: 20,
-                                  color: Colors.white,
+                                  color: colorScheme.surface,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(32),
                                     child: Hero(
@@ -184,14 +186,14 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: currentStock == 0 ? Colors.red.withOpacity(0.1) : AppColors.navyBlue.withOpacity(0.1),
+                                      color: currentStock == 0 ? Colors.red.withOpacity(0.1) : colorScheme.onBackground.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Text(
                                       currentStock == 0 ? "OUT OF STOCK" : "$currentStock IN STOCK",
                                       style: GoogleFonts.shareTechMono(
                                         fontSize: 10,
-                                        color: currentStock == 0 ? Colors.red : AppColors.navyBlue,
+                                        color: currentStock == 0 ? Colors.red : colorScheme.onBackground,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -212,14 +214,14 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                           style: GoogleFonts.orbitron(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
-                                            color: AppColors.navyBlue,
+                                            color: colorScheme.onBackground,
                                             letterSpacing: 0.5,
                                           ),
                                         ),
                                         Text(
                                           "${product.weight}",
                                           style: GoogleFonts.shareTechMono(
-                                            color: AppColors.navyBlue.withOpacity(0.4),
+                                            color: colorScheme.onBackground.withOpacity(0.4),
                                             fontSize: 11,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -266,7 +268,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                   Text(
                                     "(1.2k automated reviews)",
                                     style: GoogleFonts.poppins(
-                                      color: AppColors.navyBlue.withOpacity(0.3),
+                                      color: colorScheme.onBackground.withOpacity(0.3),
                                       fontSize: 11,
                                     ),
                                   ),
@@ -278,7 +280,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                 style: GoogleFonts.shareTechMono(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.navyBlue.withOpacity(0.8),
+                                  color: colorScheme.onBackground.withOpacity(0.8),
                                   letterSpacing: 1,
                                 ),
                               ),
@@ -286,7 +288,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               Text(
                                 "Naturally sourced from sustainable farms. Our ${product.name.toLowerCase()} items are processed for maximum nutrient retention and immaculate fresh preservation.",
                                 style: GoogleFonts.poppins(
-                                  color: AppColors.navyBlue.withOpacity(0.5),
+                                  color: colorScheme.onBackground.withOpacity(0.5),
                                   fontSize: 13,
                                   height: 1.6,
                                 ),
@@ -295,9 +297,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  _buildInfoCard(Icons.eco_outlined, "100% ORGANIC"),
-                                  _buildInfoCard(Icons.local_shipping_outlined, "FAST DISPATCH"),
-                                  _buildInfoCard(Icons.verified_user_outlined, "QUALITY CHECKED"),
+                                  _buildInfoCard(Icons.eco_outlined, "100% ORGANIC", context),
+                                  _buildInfoCard(Icons.local_shipping_outlined, "FAST DISPATCH", context),
+                                  _buildInfoCard(Icons.verified_user_outlined, "QUALITY CHECKED", context),
                                 ],
                               ).animate().fadeIn(delay: 600.ms).scaleY(begin: 0.8),
                               const SizedBox(height: 30),
@@ -317,7 +319,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                         Text(
                                           "QUANTITY",
                                           style: GoogleFonts.shareTechMono(
-                                            color: AppColors.navyBlue.withOpacity(0.4),
+                                            color: colorScheme.onBackground.withOpacity(0.4),
                                             fontSize: 9,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -338,7 +340,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                           Text(
                                             "TOTAL",
                                             style: GoogleFonts.shareTechMono(
-                                              color: AppColors.navyBlue.withOpacity(0.4),
+                                              color: colorScheme.onBackground.withOpacity(0.4),
                                               fontSize: 9,
                                               fontWeight: FontWeight.bold,
                                               letterSpacing: 1.0,
@@ -350,7 +352,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                             style: GoogleFonts.orbitron(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w900,
-                                              color: AppColors.navyBlue,
+                                              color: colorScheme.onBackground,
                                             ),
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -418,12 +420,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     );
   }
 
-  Widget _buildInfoCard(IconData icon, String label) {
+  Widget _buildInfoCard(IconData icon, String label, BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       width: 100,
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -432,7 +435,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(color: AppColors.navyBlue.withOpacity(0.05)),
+        border: Border.all(color: theme.colorScheme.onBackground.withOpacity(0.05)),
       ),
       child: Column(
         children: [
@@ -443,7 +446,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             style: GoogleFonts.shareTechMono(
               fontSize: 9,
               fontWeight: FontWeight.bold,
-              color: AppColors.navyBlue.withOpacity(0.6),
+              color: theme.colorScheme.onBackground.withOpacity(0.6),
             ),
             textAlign: TextAlign.center,
           ),

@@ -27,12 +27,14 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final cartController = ref.watch(cartProvider);
     final cartItems = cartController.items;
     final totalValue = cartController.totalValue;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -52,17 +54,17 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 20),
-                        _buildSectionTitle("SHIPPING ADDRESS"),
+                        _buildSectionTitle(context, "SHIPPING ADDRESS"),
                         const SizedBox(height: 10),
-                        _buildAddressCard(),
+                        _buildAddressCard(context),
                         const SizedBox(height: 30),
-                        _buildSectionTitle("ORDER SUMMARY"),
+                        _buildSectionTitle(context, "ORDER SUMMARY"),
                         const SizedBox(height: 10),
-                        _buildOrderSummary(cartItems),
+                        _buildOrderSummary(context, cartItems),
                         const SizedBox(height: 30),
-                        _buildSectionTitle("PAYMENT METHOD"),
+                        _buildSectionTitle(context, "PAYMENT METHOD"),
                         const SizedBox(height: 10),
-                        _buildPaymentCard(),
+                        _buildPaymentCard(context),
                         const SizedBox(height: 30),
                       ],
                     ),
@@ -77,7 +79,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Text(
       title,
       style: GoogleFonts.shareTechMono(
@@ -89,10 +91,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     ).animate().fadeIn(duration: 500.ms).slideX(begin: -0.1);
   }
 
-  Widget _buildAddressCard() {
+  Widget _buildAddressCard(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ClayContainer(
       borderRadius: 20,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      color: colorScheme.surface,
       child: Row(
         children: [
           Container(
@@ -113,7 +117,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   style: GoogleFonts.orbitron(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.navyBlue,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -121,7 +125,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   _addressController.text,
                   style: GoogleFonts.poppins(
                     fontSize: 11,
-                    color: AppColors.navyBlue.withOpacity(0.6),
+                    color: colorScheme.onSurface.withOpacity(0.6),
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -135,18 +139,20 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             onTap: () {},
             width: 60,
             height: 30,
-            color: AppColors.navyBlue.withOpacity(0.05),
-            textColor: AppColors.navyBlue,
+            color: colorScheme.onSurface.withOpacity(0.05),
+            textColor: colorScheme.onSurface,
           ),
         ],
       ),
     ).animate().fadeIn(delay: 200.ms);
   }
 
-  Widget _buildOrderSummary(List<CartItem> items) {
+  Widget _buildOrderSummary(BuildContext context, List<CartItem> items) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ClayContainer(
       borderRadius: 20,
       padding: const EdgeInsets.all(15),
+      color: colorScheme.surface,
       child: Column(
         children: [
           ...items.map((item) => Padding(
@@ -159,7 +165,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     "${item.quantity}x ${item.product.name}",
                     style: GoogleFonts.poppins(
                       fontSize: 12,
-                      color: AppColors.navyBlue.withOpacity(0.8),
+                      color: colorScheme.onSurface.withOpacity(0.8),
                     ),
                   ),
                 ),
@@ -168,7 +174,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   style: GoogleFonts.shareTechMono(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.navyBlue,
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ],
@@ -180,7 +186,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             children: [
               Text(
                 "Delivery Fee",
-                style: GoogleFonts.poppins(fontSize: 12, color: AppColors.navyBlue.withOpacity(0.6)),
+                style: GoogleFonts.poppins(fontSize: 12, color: colorScheme.onSurface.withOpacity(0.6)),
               ),
               Text(
                 "Rs 0.00",
@@ -193,19 +199,21 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     ).animate().fadeIn(delay: 400.ms);
   }
 
-  Widget _buildPaymentCard() {
+  Widget _buildPaymentCard(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ClayContainer(
       borderRadius: 20,
       padding: const EdgeInsets.all(15),
+      color: colorScheme.surface,
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppColors.navyBlue.withOpacity(0.1),
+              color: colorScheme.onSurface.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.account_balance_wallet_outlined, color: AppColors.navyBlue, size: 24),
+            child: Icon(Icons.account_balance_wallet_outlined, color: colorScheme.onSurface, size: 24),
           ),
           const SizedBox(width: 15),
           Expanded(
@@ -217,14 +225,14 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   style: GoogleFonts.orbitron(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.navyBlue,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 Text(
                   "Pay when you receive",
                   style: GoogleFonts.poppins(
                     fontSize: 10,
-                    color: AppColors.navyBlue.withOpacity(0.5),
+                    color: colorScheme.onSurface.withOpacity(0.5),
                   ),
                 ),
               ],
@@ -237,10 +245,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   Widget _buildBottomBar(BuildContext context, CartController cartController, double total) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         boxShadow: [
           BoxShadow(
@@ -260,7 +270,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 "TOTAL AMOUNT",
                 style: GoogleFonts.orbitron(
                   fontSize: 10,
-                  color: AppColors.navyBlue.withOpacity(0.5),
+                  color: colorScheme.onBackground.withOpacity(0.5),
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                 ),
@@ -270,7 +280,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 style: GoogleFonts.orbitron(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.navyBlue,
+                  color: colorScheme.onBackground,
                 ),
               ),
             ],
@@ -303,7 +313,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 }
               }
             },
-            color: AppColors.navyBlue,
+            color: colorScheme.primary,
             icon: Icons.verified_rounded,
           ),
         ],

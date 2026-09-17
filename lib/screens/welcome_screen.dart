@@ -11,8 +11,11 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -26,6 +29,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: 280,
                     width: 280,
                     borderRadius: 40,
+                    color: colorScheme.surface,
                     child: Padding(
                       padding: const EdgeInsets.all(25.0),
                       child: Image.asset(
@@ -47,7 +51,7 @@ class WelcomeScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                           height: 1.2,
                         ),
                       ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
@@ -57,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: AppColors.navyBlue.withOpacity(0.6),
+                          color: colorScheme.onBackground.withOpacity(0.6),
                           height: 1.5,
                         ),
                       ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.2, end: 0),
@@ -75,7 +79,7 @@ class WelcomeScreen extends StatelessWidget {
                     width: index == 0 ? 24 : 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: index == 0 ? AppColors.navyBlue : AppColors.navyBlue.withOpacity(0.2),
+                      color: index == 0 ? colorScheme.primary : colorScheme.primary.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   )),
@@ -89,6 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: ClayContainer(
                     height: 65,
                     borderRadius: 20,
+                    color: colorScheme.surface,
                     child: Row(
                       children: [
                         Expanded(
@@ -97,11 +102,11 @@ class WelcomeScreen extends StatelessWidget {
                             child: Container(
                               margin: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: AppColors.white,
+                                color: colorScheme.surface,
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.navyBlue.withOpacity(0.05),
+                                    color: colorScheme.onSurface.withOpacity(0.05),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   )
@@ -112,7 +117,7 @@ class WelcomeScreen extends StatelessWidget {
                                 "Sign Up", 
                                 style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w600, 
-                                  color: AppColors.navyBlue,
+                                  color: colorScheme.onSurface,
                                 )
                               ),
                             ),
@@ -128,7 +133,7 @@ class WelcomeScreen extends StatelessWidget {
                                 "Login", 
                                 style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w600, 
-                                  color: AppColors.navyBlue.withOpacity(0.5),
+                                  color: colorScheme.onSurface.withOpacity(0.5),
                                 )
                               ),
                             ),

@@ -9,8 +9,11 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -44,7 +47,7 @@ class NotificationsScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 28,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                     ],
@@ -57,7 +60,7 @@ class NotificationsScreen extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemCount: 4,
                     itemBuilder: (context, index) {
-                      return _buildNotificationCard(index);
+                      return _buildNotificationCard(context, index);
                     },
                   ),
                 ),
@@ -70,13 +73,16 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationCard(int index) {
+  Widget _buildNotificationCard(BuildContext context, int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     bool isNew = index == 0;
+    
     return ClayContainer(
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(18),
       borderRadius: 25,
-      color: isNew ? Colors.white : Colors.white.withOpacity(0.7),
+      color: isNew ? colorScheme.surface : colorScheme.surface.withOpacity(0.7),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -106,7 +112,7 @@ class NotificationsScreen extends StatelessWidget {
                         style: GoogleFonts.orbitron(
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onSurface,
                           letterSpacing: 0.5,
                         ),
                         maxLines: 1,
@@ -117,7 +123,7 @@ class NotificationsScreen extends StatelessWidget {
                     Text(
                       "2M // AGO",
                       style: GoogleFonts.shareTechMono(
-                        color: AppColors.navyBlue.withOpacity(0.4),
+                        color: colorScheme.onSurface.withOpacity(0.4),
                         fontSize: 9,
                         fontWeight: FontWeight.bold,
                       ),
@@ -130,7 +136,7 @@ class NotificationsScreen extends StatelessWidget {
                       ? "Your order #12345 has been delivered successfully. Enjoy your groceries!"
                       : "Get 50% off on all fresh vegetables today. Limited time offer!",
                   style: GoogleFonts.poppins(
-                    color: AppColors.navyBlue.withOpacity(0.6),
+                    color: colorScheme.onSurface.withOpacity(0.6),
                     fontSize: 12,
                     height: 1.4,
                   ),

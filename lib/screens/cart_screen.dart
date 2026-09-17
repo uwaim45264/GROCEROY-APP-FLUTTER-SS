@@ -20,11 +20,13 @@ class CartScreen extends ConsumerStatefulWidget {
 class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final cartController = ref.watch(cartProvider);
     final cartItems = cartController.items;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -84,7 +86,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         style: GoogleFonts.poppins(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                     ],
@@ -99,12 +101,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             children: [
                               Icon(Icons.shopping_cart_outlined,
                                   size: 64,
-                                  color: AppColors.navyBlue.withOpacity(0.1)),
+                                  color: colorScheme.onBackground.withOpacity(0.1)),
                               const SizedBox(height: 16),
                               Text(
                                 "YOUR CART IS EMPTY",
                                 style: GoogleFonts.orbitron(
-                                  color: AppColors.navyBlue.withOpacity(0.3),
+                                  color: colorScheme.onBackground.withOpacity(0.3),
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -126,13 +128,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
+                    color: theme.scaffoldBackgroundColor.withOpacity(0.8),
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(30)),
                   ),
                   child: ClayContainer(
                     borderRadius: 25,
                     padding: const EdgeInsets.all(20),
+                    color: colorScheme.surface,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -143,7 +146,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               "TOTAL VALUE",
                               style: GoogleFonts.orbitron(
                                 fontSize: 10,
-                                color: AppColors.navyBlue.withOpacity(0.5),
+                                color: colorScheme.onBackground.withOpacity(0.5),
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1,
                               ),
@@ -153,7 +156,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               style: GoogleFonts.orbitron(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,
-                                color: AppColors.navyBlue,
+                                color: colorScheme.onBackground,
                               ),
                             ),
                           ],
@@ -188,6 +191,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
   Widget _buildCartItem(
       CartController cartController, CartItem item, int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     int currentStock =
         cartController.getStock(item.product.id, item.product.stock);
 
@@ -231,6 +236,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(12),
         borderRadius: 20,
+        color: colorScheme.surface,
         child: Row(
           children: [
             Container(
@@ -259,7 +265,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     style: GoogleFonts.orbitron(
                       fontWeight: FontWeight.bold,
                       fontSize: 10,
-                      color: AppColors.navyBlue,
+                      color: colorScheme.onBackground,
                       letterSpacing: 0.5,
                     ),
                     maxLines: 1,
@@ -268,7 +274,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                   Text(
                     "${item.product.weight} // UNIT",
                     style: GoogleFonts.shareTechMono(
-                      color: AppColors.navyBlue.withOpacity(0.4),
+                      color: colorScheme.onBackground.withOpacity(0.4),
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
                     ),

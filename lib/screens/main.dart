@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'onboarding_screen.dart';
-import '../widgets/app_theme.dart';
+import '../widgets/white_theme.dart';
+import '../widgets/dark_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,15 +21,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Grocery App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primaryGreen,
-          primary: AppColors.primaryGreen,
-          secondary: AppColors.navyBlue,
-        ),
-        scaffoldBackgroundColor: AppColors.white,
-        useMaterial3: true,
-      ),
+      theme: whiteTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
       home: const OnboardingScreen(),
     );
   }

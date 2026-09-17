@@ -8,6 +8,7 @@ import 'product_detail_screen.dart';
 import '../widgets/app_theme.dart';
 import '../controllers/wishlist_controller.dart';
 import '../controllers/cart_controller.dart';
+
 class WishlistScreen extends ConsumerStatefulWidget {
   const WishlistScreen({super.key});
 
@@ -18,12 +19,14 @@ class WishlistScreen extends ConsumerStatefulWidget {
 class _WishlistScreenState extends ConsumerState<WishlistScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final wishlistController = ref.watch(wishlistProvider);
     final cartController = ref.watch(cartProvider);
     final wishlistItems = wishlistController.items;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -56,7 +59,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                         style: GoogleFonts.poppins(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                     ],
@@ -69,12 +72,12 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.favorite_border_rounded, size: 64, color: AppColors.navyBlue.withOpacity(0.1)),
+                              Icon(Icons.favorite_border_rounded, size: 64, color: colorScheme.onBackground.withOpacity(0.1)),
                               const SizedBox(height: 16),
                               Text(
                                 "YOUR WISHLIST IS EMPTY",
                                 style: GoogleFonts.orbitron(
-                                  color: AppColors.navyBlue.withOpacity(0.3),
+                                  color: colorScheme.onBackground.withOpacity(0.3),
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -101,6 +104,9 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
   }
 
   Widget _buildWishlistItem(BuildContext context, CartController cartController, Product product, int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -112,6 +118,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(12),
         borderRadius: 20,
+        color: colorScheme.surface,
         child: Row(
           children: [
             Container(
@@ -129,7 +136,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                     product.imagePath,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      return Center(child: Icon(product.icon, size: 32, color: AppColors.navyBlue));
+                      return Center(child: Icon(product.icon, size: 32, color: colorScheme.onSurface));
                     },
                   ),
                 ),
@@ -145,7 +152,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                     style: GoogleFonts.orbitron(
                       fontWeight: FontWeight.bold,
                       fontSize: 10,
-                      color: AppColors.navyBlue,
+                      color: colorScheme.onSurface,
                       letterSpacing: 0.5,
                     ),
                     maxLines: 1,
@@ -154,7 +161,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                   Text(
                     "${product.weight} // UNIT",
                     style: GoogleFonts.shareTechMono(
-                      color: AppColors.navyBlue.withOpacity(0.4),
+                      color: colorScheme.onSurface.withOpacity(0.4),
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
                     ),

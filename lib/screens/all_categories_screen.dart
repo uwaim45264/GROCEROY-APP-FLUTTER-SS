@@ -15,8 +15,11 @@ class AllCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -49,7 +52,7 @@ class AllCategoriesScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                     ],
@@ -83,11 +86,14 @@ class AllCategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildCompactCategoryItem(BuildContext context, String name, String imagePath, Color accentColor, Widget screen, int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => screen)),
       child: ClayContainer(
         borderRadius: 22,
-        color: Colors.white,
+        color: colorScheme.surface,
         padding: const EdgeInsets.all(12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +122,7 @@ class AllCategoriesScreen extends StatelessWidget {
               style: GoogleFonts.orbitron(
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
+                color: colorScheme.onSurface,
                 letterSpacing: 0.8,
               ),
             ),

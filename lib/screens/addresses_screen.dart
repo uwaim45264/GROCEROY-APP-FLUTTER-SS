@@ -9,8 +9,11 @@ class AddressesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -48,7 +51,7 @@ class AddressesScreen extends StatelessWidget {
                       CustomButton(
                         text: "Add New Address",
                         onTap: () {},
-                        color: AppColors.navyBlue.withOpacity(0.8),
+                        color: colorScheme.primary.withOpacity(0.8),
                       ).animate().fadeIn(delay: 400.ms),
                     ],
                   ),
@@ -69,11 +72,15 @@ class AddressesScreen extends StatelessWidget {
     IconData icon,
     bool isSelected,
   ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ClayContainer(
         borderRadius: 22,
         padding: const EdgeInsets.all(20),
+        color: colorScheme.surface,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -98,7 +105,7 @@ class AddressesScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       if (isSelected)
@@ -117,7 +124,7 @@ class AddressesScreen extends StatelessWidget {
                     address,
                     style: GoogleFonts.poppins(
                       fontSize: 13,
-                      color: AppColors.navyBlue.withOpacity(0.6),
+                      color: colorScheme.onSurface.withOpacity(0.6),
                       height: 1.4,
                     ),
                   ),

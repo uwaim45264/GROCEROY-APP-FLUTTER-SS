@@ -56,9 +56,11 @@ class DashboardContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final popularDeals = ref.watch(popularDealsProvider);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -86,7 +88,7 @@ class DashboardContent extends ConsumerWidget {
                           "Uwaim",
                           style: GoogleFonts.shareTechMono(
                             fontSize: 10,
-                            color: AppColors.navyBlue.withOpacity(0.5),
+                            color: colorScheme.onBackground.withOpacity(0.5),
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.2,
                           ),
@@ -96,7 +98,7 @@ class DashboardContent extends ConsumerWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.navyBlue,
+                            color: colorScheme.onBackground,
                           ),
                         ),
                       ],
@@ -257,6 +259,7 @@ class DashboardContent extends ConsumerWidget {
   }
 
   Widget _buildCategoryCard(BuildContext context, String name, String imagePath, Color bgColor, Widget screen, int index) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => screen)),
       child: Container(
@@ -267,6 +270,7 @@ class DashboardContent extends ConsumerWidget {
               height: 58,
               width: 58,
               borderRadius: 18,
+              color: theme.colorScheme.surface,
               child: Center(
                 child: Container(
                   height: 40,
@@ -291,7 +295,7 @@ class DashboardContent extends ConsumerWidget {
               style: GoogleFonts.orbitron(
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
+                color: theme.colorScheme.onBackground,
                 letterSpacing: 0.5,
               ),
             ),

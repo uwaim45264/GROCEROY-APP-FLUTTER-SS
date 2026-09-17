@@ -9,8 +9,11 @@ class PaymentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -29,6 +32,7 @@ class PaymentsScreen extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     children: [
                       _buildPaymentCard(
+                        context,
                         "Visa Card",
                         "**** **** **** 4242",
                         "Expires 12/24",
@@ -36,6 +40,7 @@ class PaymentsScreen extends StatelessWidget {
                         true,
                       ),
                       _buildPaymentCard(
+                        context,
                         "MasterCard",
                         "**** **** **** 5555",
                         "Expires 09/25",
@@ -43,6 +48,7 @@ class PaymentsScreen extends StatelessWidget {
                         false,
                       ),
                       _buildPaymentCard(
+                        context,
                         "Google Pay",
                         "uwaim@okaxis",
                         "UPI ID",
@@ -53,7 +59,7 @@ class PaymentsScreen extends StatelessWidget {
                       CustomButton(
                         text: "Add New Method",
                         onTap: () {},
-                        color: AppColors.navyBlue.withOpacity(0.8),
+                        color: colorScheme.primary.withOpacity(0.8),
                       ).animate().fadeIn(delay: 400.ms),
                     ],
                   ),
@@ -67,17 +73,21 @@ class PaymentsScreen extends StatelessWidget {
   }
 
   Widget _buildPaymentCard(
+    BuildContext context,
     String label,
     String detail,
     String subtitle,
     IconData icon,
     bool isSelected,
   ) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ClayContainer(
         borderRadius: 22,
         padding: const EdgeInsets.all(20),
+        color: colorScheme.surface,
         child: Row(
           children: [
             Container(
@@ -101,7 +111,7 @@ class PaymentsScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       if (isSelected)
@@ -112,7 +122,7 @@ class PaymentsScreen extends StatelessWidget {
                     detail,
                     style: GoogleFonts.shareTechMono(
                       fontSize: 14,
-                      color: AppColors.navyBlue,
+                      color: colorScheme.onSurface,
                       letterSpacing: 1,
                     ),
                   ),
@@ -120,7 +130,7 @@ class PaymentsScreen extends StatelessWidget {
                     subtitle,
                     style: GoogleFonts.poppins(
                       fontSize: 11,
-                      color: AppColors.navyBlue.withOpacity(0.5),
+                      color: colorScheme.onSurface.withOpacity(0.5),
                     ),
                   ),
                 ],

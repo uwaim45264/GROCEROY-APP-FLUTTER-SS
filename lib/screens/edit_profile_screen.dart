@@ -34,11 +34,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   void _saveProfile() {
-    // Implement standard update profile or update in provider
-    final userNotifier = ref.read(userProvider);
-    // For now we simulate/save via custom method or direct assignment if supported, 
-    // or let's just show a success message and pop.
-    // Let's make sure we update it if needed.
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -53,8 +48,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -80,11 +78,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             height: 100,
                             width: 100,
                             borderRadius: 50,
+                            color: colorScheme.surface,
                             child: Center(
                               child: Icon(
                                 Icons.person_rounded,
                                 size: 50,
-                                color: AppColors.navyBlue.withOpacity(0.5),
+                                color: colorScheme.onSurface.withOpacity(0.5),
                               ),
                             ),
                           ),
@@ -95,26 +94,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.navyBlue,
+                            color: colorScheme.onBackground,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        _buildInputField(controller: _nameController, hint: "Enter your full name"),
+                        _buildInputField(context, controller: _nameController, hint: "Enter your full name"),
                         const SizedBox(height: 25),
                         Text(
                           "Email Address",
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.navyBlue,
+                            color: colorScheme.onBackground,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        _buildInputField(controller: _emailController, hint: "Enter your email address", keyboardType: TextInputType.emailAddress),
+                        _buildInputField(context, controller: _emailController, hint: "Enter your email address", keyboardType: TextInputType.emailAddress),
                         const SizedBox(height: 40),
                         CustomButton(
                           text: "Save Changes",
-                          color: AppColors.navyBlue,
+                          color: colorScheme.primary,
                           onTap: _saveProfile,
                         ).animate().fadeIn(delay: 200.ms),
                       ],
@@ -129,22 +128,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     );
   }
 
-  Widget _buildInputField({
+  Widget _buildInputField(
+    BuildContext context, {
     required TextEditingController controller,
     required String hint,
     TextInputType keyboardType = TextInputType.text,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ClayContainer(
       height: 60,
       borderRadius: 18,
+      color: colorScheme.surface,
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
-        style: GoogleFonts.poppins(color: AppColors.navyBlue, fontSize: 14),
+        style: GoogleFonts.poppins(color: colorScheme.onSurface, fontSize: 14),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: GoogleFonts.poppins(
-            color: AppColors.navyBlue.withOpacity(0.3),
+            color: colorScheme.onSurface.withOpacity(0.3),
             fontSize: 14,
           ),
           border: InputBorder.none,

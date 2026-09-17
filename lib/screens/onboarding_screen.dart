@@ -38,8 +38,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -56,14 +59,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
+                      color: colorScheme.surface,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       "Skip",
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: AppColors.black,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -91,7 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             style: GoogleFonts.poppins(
                               fontSize: 34,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.black,
+                              color: colorScheme.onBackground,
                               height: 1.1,
                             ),
                           ),
@@ -100,7 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             style: GoogleFonts.poppins(
                               fontSize: 34,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.navyBlue,
+                              color: colorScheme.primary,
                               height: 1.1,
                             ),
                           ),
@@ -109,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             _onboardingData[index]["description"]!,
                             style: GoogleFonts.poppins(
                               fontSize: 15,
-                              color: AppColors.grey,
+                              color: colorScheme.onBackground.withOpacity(0.6),
                               height: 1.5,
                             ),
                           ),
@@ -139,7 +142,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         context,
                         MaterialPageRoute(builder: (c) => const WelcomeScreen()),
                       ),
-                      color: AppColors.navyBlue,
+                      color: colorScheme.primary,
                       icon: Icons.arrow_forward_rounded,
                       height: 60,
                     )
@@ -154,8 +157,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           width: _currentPage == index ? 24 : 8,
                           decoration: BoxDecoration(
                             color: _currentPage == index
-                                ? AppColors.navyBlue
-                                : AppColors.navyBlue,
+                                ? colorScheme.primary
+                                : colorScheme.primary.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),

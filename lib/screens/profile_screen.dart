@@ -18,10 +18,12 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final user = ref.watch(userProvider).currentUser;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -49,11 +51,12 @@ class ProfileScreen extends ConsumerWidget {
                                 height: 120,
                                 width: 120,
                                 borderRadius: 60,
+                                color: colorScheme.surface,
                                 child: Center(
                                   child: Icon(
                                     Icons.person_rounded,
                                     size: 60,
-                                    color: AppColors.navyBlue.withOpacity(0.5),
+                                    color: colorScheme.onSurface.withOpacity(0.5),
                                   ),
                                 ),
                               ),
@@ -89,7 +92,7 @@ class ProfileScreen extends ConsumerWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.navyBlue,
+                            color: colorScheme.onBackground,
                           ),
                         ).animate().fadeIn(delay: 200.ms),
                         
@@ -97,7 +100,7 @@ class ProfileScreen extends ConsumerWidget {
                           user?.email ?? "login to sync data",
                           style: GoogleFonts.poppins(
                             fontSize: 14,
-                            color: AppColors.navyBlue.withOpacity(0.5),
+                            color: colorScheme.onBackground.withOpacity(0.5),
                           ),
                         ).animate().fadeIn(delay: 300.ms),
                         
@@ -105,6 +108,7 @@ class ProfileScreen extends ConsumerWidget {
                         
                         // Menu Options
                         _buildMenuOption(
+                          context: context,
                           icon: Icons.shopping_bag_outlined,
                           title: "My Orders",
                           subtitle: "Track your active orders",
@@ -112,6 +116,7 @@ class ProfileScreen extends ConsumerWidget {
                         ).animate().fadeIn(delay: 400.ms).slideX(begin: 0.1, end: 0),
                         
                         _buildMenuOption(
+                          context: context,
                           icon: Icons.location_on_outlined,
                           title: "Delivery Address",
                           subtitle: "Home, Office & other saved places",
@@ -119,6 +124,7 @@ class ProfileScreen extends ConsumerWidget {
                         ).animate().fadeIn(delay: 500.ms).slideX(begin: 0.1, end: 0),
                         
                         _buildMenuOption(
+                          context: context,
                           icon: Icons.payment_outlined,
                           title: "Payment Methods",
                           subtitle: "Cards, Wallets & UPI",
@@ -126,6 +132,7 @@ class ProfileScreen extends ConsumerWidget {
                         ).animate().fadeIn(delay: 600.ms).slideX(begin: 0.1, end: 0),
                         
                         _buildMenuOption(
+                          context: context,
                           icon: Icons.notifications_none_rounded,
                           title: "Notifications",
                           subtitle: "App alerts & promotional messages",
@@ -133,6 +140,7 @@ class ProfileScreen extends ConsumerWidget {
                         ).animate().fadeIn(delay: 700.ms).slideX(begin: 0.1, end: 0),
                         
                         _buildMenuOption(
+                          context: context,
                           icon: Icons.help_outline_rounded,
                           title: "Help & Support",
                           subtitle: "24/7 customer service",
@@ -168,11 +176,15 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildMenuOption({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
     VoidCallback? onTap,
   }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: GestureDetector(
@@ -180,6 +192,7 @@ class ProfileScreen extends ConsumerWidget {
         child: ClayContainer(
           borderRadius: 20,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          color: colorScheme.surface,
           child: Row(
             children: [
               Container(
@@ -200,14 +213,14 @@ class ProfileScreen extends ConsumerWidget {
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
-                        color: AppColors.navyBlue,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     Text(
                       subtitle,
                       style: GoogleFonts.poppins(
                         fontSize: 11,
-                        color: AppColors.navyBlue.withOpacity(0.5),
+                        color: colorScheme.onSurface.withOpacity(0.5),
                       ),
                     ),
                   ],
@@ -216,7 +229,7 @@ class ProfileScreen extends ConsumerWidget {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 14,
-                color: AppColors.navyBlue.withOpacity(0.3),
+                color: colorScheme.onSurface.withOpacity(0.3),
               ),
             ],
           ),

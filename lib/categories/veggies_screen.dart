@@ -12,19 +12,21 @@ class VeggiesScreen extends ConsumerWidget {
   const VeggiesScreen({super.key});
 
   static final List<Product> products = [
-    Product(id: 'm1', name: "Beef Steak", weight: "1KG", price: "Rs 15.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.red, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm2', name: "Chicken Breast", weight: "1KG", price: "Rs 8.50", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.orange, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm3', name: "Salmon Fillet", weight: "500G", price: "Rs 12.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.pink, icon: Icons.set_meal_rounded),
-    Product(id: 'm4', name: "Lamb Chops", weight: "1KG", price: "Rs 18.50", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.brown, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm5', name: "Pork Ribs", weight: "1KG", price: "Rs 10.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.redAccent, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm6', name: "Fresh Shrimp", weight: "500G", price: "Rs 9.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.orangeAccent, icon: Icons.set_meal_rounded),
+    Product(id: 'v1', name: "Fresh Broccoli", weight: "500G", price: "Rs 3.50", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.green, icon: Icons.eco_rounded),
+    Product(id: 'v2', name: "Carrots", weight: "1KG", price: "Rs 2.00", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.orange, icon: Icons.eco_rounded),
+    Product(id: 'v3', name: "Organic Spinach", weight: "250G", price: "Rs 1.80", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.greenAccent, icon: Icons.eco_rounded),
+    Product(id: 'v4', name: "Red Tomatoes", weight: "1KG", price: "Rs 3.00", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.red, icon: Icons.eco_rounded),
+    Product(id: 'v5', name: "Cucumbers", weight: "1KG", price: "Rs 2.20", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.lightGreen, icon: Icons.eco_rounded),
+    Product(id: 'v6', name: "Red Bell Pepper", weight: "500G", price: "Rs 4.00", imagePath: "assets/categories/Vegetables Category.png", bgColor: Colors.redAccent, icon: Icons.eco_rounded),
   ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -59,7 +61,7 @@ class VeggiesScreen extends ConsumerWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                     ],

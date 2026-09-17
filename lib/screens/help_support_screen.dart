@@ -9,8 +9,11 @@ class HelpSupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -35,7 +38,7 @@ class HelpSupportScreen extends StatelessWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.navyBlue,
+                            color: colorScheme.onBackground,
                           ),
                         ).animate().fadeIn(),
                         const SizedBox(height: 20),
@@ -69,14 +72,14 @@ class HelpSupportScreen extends StatelessWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.navyBlue,
+                            color: colorScheme.onBackground,
                           ),
                         ),
                         const SizedBox(height: 15),
-                        _buildTopicTile("Refund Policy"),
-                        _buildTopicTile("Delivery Issues"),
-                        _buildTopicTile("Payment Security"),
-                        _buildTopicTile("Account Settings"),
+                        _buildTopicTile(context, "Refund Policy"),
+                        _buildTopicTile(context, "Delivery Issues"),
+                        _buildTopicTile(context, "Payment Security"),
+                        _buildTopicTile(context, "Account Settings"),
                         const SizedBox(height: 40),
                       ],
                     ),
@@ -91,11 +94,14 @@ class HelpSupportScreen extends StatelessWidget {
   }
 
   Widget _buildSupportOption(BuildContext context, String title, String subtitle, IconData icon) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ClayContainer(
         borderRadius: 20,
         padding: const EdgeInsets.all(20),
+        color: colorScheme.surface,
         child: Row(
           children: [
             Container(
@@ -116,14 +122,14 @@ class HelpSupportScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
-                      color: AppColors.navyBlue,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   Text(
                     subtitle,
                     style: GoogleFonts.poppins(
                       fontSize: 12,
-                      color: AppColors.navyBlue.withOpacity(0.5),
+                      color: colorScheme.onSurface.withOpacity(0.5),
                     ),
                   ),
                 ],
@@ -135,7 +141,8 @@ class HelpSupportScreen extends StatelessWidget {
     ).animate().fadeIn().slideX(begin: 0.1, end: 0);
   }
 
-  Widget _buildTopicTile(String title) {
+  Widget _buildTopicTile(BuildContext context, String title) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -145,10 +152,10 @@ class HelpSupportScreen extends StatelessWidget {
             title,
             style: GoogleFonts.poppins(
               fontSize: 14,
-              color: AppColors.navyBlue.withOpacity(0.7),
+              color: colorScheme.onBackground.withOpacity(0.7),
             ),
           ),
-          Icon(Icons.add_rounded, size: 18, color: AppColors.lightGreen),
+          const Icon(Icons.add_rounded, size: 18, color: AppColors.lightGreen),
         ],
       ),
     );

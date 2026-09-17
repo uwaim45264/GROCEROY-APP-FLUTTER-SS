@@ -9,8 +9,11 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           const BackgroundBlobs(),
@@ -29,7 +32,7 @@ class OrdersScreen extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (context, index) {
-                      return _buildOrderCard(index);
+                      return _buildOrderCard(context, index);
                     },
                   ),
                 ),
@@ -41,12 +44,16 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderCard(int index) {
+  Widget _buildOrderCard(BuildContext context, int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ClayContainer(
         borderRadius: 22,
         padding: const EdgeInsets.all(20),
+        color: colorScheme.surface,
         child: Column(
           children: [
             Row(
@@ -60,7 +67,7 @@ class OrdersScreen extends StatelessWidget {
                       style: GoogleFonts.orbitron(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.navyBlue,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -68,7 +75,7 @@ class OrdersScreen extends StatelessWidget {
                       "Oct 2${index + 1}, 2023",
                       style: GoogleFonts.poppins(
                         fontSize: 11,
-                        color: AppColors.navyBlue.withOpacity(0.5),
+                        color: colorScheme.onSurface.withOpacity(0.5),
                       ),
                     ),
                   ],
@@ -112,7 +119,7 @@ class OrdersScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
-                          color: AppColors.navyBlue,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       Text(
@@ -126,7 +133,7 @@ class OrdersScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.navyBlue.withOpacity(0.3)),
+                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: colorScheme.onSurface.withOpacity(0.3)),
               ],
             ),
           ],
