@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../data_models/products_data_model.dart';
+import '../providers/products_provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custom_widgets.dart';
 
-class MeatScreen extends StatelessWidget {
+class MeatScreen extends ConsumerWidget {
   const MeatScreen({super.key});
 
-  static final List<Product> products = [
-    Product(id: 'm1', name: "Beef Steak", weight: "1KG", price: "Rs 15.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.red, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm2', name: "Chicken Breast", weight: "1KG", price: "Rs 8.50", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.orange, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm3', name: "Salmon Fillet", weight: "500G", price: "Rs 12.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.pink, icon: Icons.set_meal_rounded),
-    Product(id: 'm4', name: "Lamb Chops", weight: "1KG", price: "Rs 18.50", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.brown, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm5', name: "Pork Ribs", weight: "1KG", price: "Rs 10.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.redAccent, icon: Icons.kebab_dining_rounded),
-    Product(id: 'm6', name: "Fresh Shrimp", weight: "500G", price: "Rs 9.99", imagePath: "assets/categories/Meat Category.png", bgColor: Colors.orangeAccent, icon: Icons.set_meal_rounded),
-  ];
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final products = ref.watch(categoryProductsProvider('Meat'));
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -67,29 +60,38 @@ class MeatScreen extends StatelessWidget {
                 ).animate().fadeIn(duration: 500.ms).slideX(begin: -0.05),
                 const SizedBox(height: 15),
                 Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                    physics: const BouncingScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return ProductCard(
-                        product: products[index],
-                        index: index,
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetailScreen(product: products[index]),
+                  child: products.isEmpty
+                    ? Center(
+                        child: Text(
+                          "NO MEAT ITEMS FOUND",
+                          style: GoogleFonts.shareTechMono(
+                            color: colorScheme.onBackground.withOpacity(0.5),
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      )
+                    : GridView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                        ),
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          return ProductCard(
+                            product: products[index],
+                            index: index,
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailScreen(product: products[index]),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                 ),
               ],
             ),

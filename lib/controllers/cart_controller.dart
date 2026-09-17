@@ -13,7 +13,7 @@ class CartController extends ChangeNotifier {
 
   final List<CartItem> _items = [];
   
-  // Centralized stock tracker to simulate live inventory changes THIS IS ONLY FOR TO REMEBER UWAIM ......
+  // Centralized stock tracker to simulate live inventory changes
   final Map<String, int> _productStocks = {
     'p1': 12,
     'p2': 5,
@@ -56,6 +56,7 @@ class CartController extends ChangeNotifier {
           weight: item['weight'],
           imagePath: item['imagePath'],
           stock: getStock(item['id'], 10),
+          category: item['category'] ?? 'Fruits',
         ),
         quantity: item['quantity'],
       ));
@@ -73,6 +74,11 @@ class CartController extends ChangeNotifier {
       await DatabaseHelper.instance.addToCart(product, quantity);
     }
     notifyListeners();
+  }
+
+  // Alias for addProduct to match some usages if needed, or just use addProduct
+  void addItem(Product product, int quantity) {
+    addProduct(product, quantity: quantity);
   }
 
   Future<void> updateQuantity(String productId, int quantity) async {
@@ -109,7 +115,7 @@ class CartController extends ChangeNotifier {
     for (var item in _items) {
       int currentStock = getStock(item.product.id, item.product.stock);
       if (item.quantity > currentStock) {
-        return false; // Not enough stock for checkout THIS ONLY FOR ME TO REMEMBER UWAIM
+        return false;
       }
     }
 
@@ -117,7 +123,6 @@ class CartController extends ChangeNotifier {
       _productStocks[item.product.id] = getStock(item.product.id, item.product.stock) - item.quantity;
     }
 
-    // Clear the cart THIS ONLY FOR ME TO REMEBER UWAIM
     await clearCart();
     return true;
   }

@@ -9,6 +9,7 @@ class Product {
   final IconData icon;
   final Color? bgColor;
   final int stock;
+  final String category;
 
   Product({
     required this.id,
@@ -19,6 +20,7 @@ class Product {
     this.icon = Icons.eco_rounded,
     this.bgColor,
     this.stock = 10,
+    required this.category,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class Product {
       'weight': weight,
       'imagePath': imagePath,
       'stock': stock,
+      'category': category,
     };
   }
 
@@ -40,6 +43,7 @@ class Product {
       weight: map['weight'] ?? '',
       imagePath: map['imagePath'] ?? '',
       stock: map['stock'] ?? 10,
+      category: map['category'] ?? 'Fruits',
     );
   }
 

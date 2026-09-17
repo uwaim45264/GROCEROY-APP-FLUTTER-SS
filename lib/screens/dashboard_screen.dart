@@ -55,7 +55,7 @@ class DashboardContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final popularDeals = ref.watch(popularDealsProvider);
+    final products = ref.watch(searchedProductsProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -220,33 +220,47 @@ class DashboardContent extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: SectionHeader(title: "POPULAR DEALS", actionText: "HOT"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: SectionHeader(
+                      title: "ALL PRODUCTS", 
+                      actionText: "${products.length} ITEMS",
+                    ),
                   ),
                   const SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                        crossAxisSpacing: 15,
-                      ),
-                      itemCount: popularDeals.length,
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          product: popularDeals[index],
-                          index: index,
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProductDetailScreen(product: popularDeals[index]))
+                    child: products.isEmpty 
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Text(
+                              "NO PRODUCTS FOUND",
+                              style: GoogleFonts.shareTechMono(color: colorScheme.onBackground.withOpacity(0.5)),
+                            ),
                           ),
-                        );
-                      },
-                    ),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.75,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                          ),
+                          itemCount: products.length,
+                          itemBuilder: (context, index) {
+                            return ProductCard(
+                              product: products[index],
+                              index: index,
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ProductDetailScreen(product: products[index]))
+                              ),
+                            );
+                          },
+                        ),
                   ),
                   const SizedBox(height: 90),
                 ],
@@ -279,29 +293,25 @@ class DashboardContent extends ConsumerWidget {
                     color: bgColor.withOpacity(0.5),
                     shape: BoxShape.circle,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Image.asset(imagePath, fit: BoxFit.contain),
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Image.asset(imagePath, fit: BoxFit.contain),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             Text(
-              name.toUpperCase(),
-              style: GoogleFonts.orbitron(
-                fontSize: 8,
+              name,
+              style: GoogleFonts.shareTechMono(
+                fontSize: 10,
                 fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onBackground,
-                letterSpacing: 0.5,
+                color: theme.colorScheme.onBackground.withOpacity(0.7),
               ),
             ),
           ],
         ),
       ),
-    ).animate().fadeIn(delay: (300 + (index * 80)).ms).slideX(begin: 0.15, end: 0);
+    ).animate().fadeIn(delay: (200 + (index * 100)).ms).slideY(begin: 0.2, end: 0);
   }
 }

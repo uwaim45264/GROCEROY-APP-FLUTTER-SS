@@ -6,8 +6,9 @@ import '../data_models/products_data_model.dart';
 import '../widgets/custom_widgets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/warning_dialog.dart';
-
+import '../widgets/favorite_button.dart';
 import '../controllers/cart_controller.dart';
+import '../widgets/clay_container.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product? product;
@@ -31,7 +32,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Tap outside to close
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
@@ -40,7 +40,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                 height: double.infinity,
               ),
             ),
-            // Full Image with Zoom support
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: product.imagePath.contains('assets')
@@ -53,7 +52,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     )
                   : Icon(product.icon, size: 200, color: Colors.white),
             ),
-            // Close Button
             Positioned(
               top: 40,
               right: 20,
@@ -81,6 +79,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       imagePath: 'assets/images/2.jpg',
       bgColor: AppColors.cream,
       stock: 10,
+      category: "Fruits",
     );
 
     int currentStock = cartController.getAvailableStock(product.id, product.stock);
@@ -301,118 +300,132 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                   _buildInfoCard(Icons.local_shipping_outlined, "FAST DISPATCH", context),
                                   _buildInfoCard(Icons.verified_user_outlined, "QUALITY CHECKED", context),
                                 ],
-                              ).animate().fadeIn(delay: 600.ms).scaleY(begin: 0.8),
-                              const SizedBox(height: 30),
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.bgLightGreen.withOpacity(0.3),
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(color: AppColors.lightGreen.withOpacity(0.1)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "QUANTITY",
-                                          style: GoogleFonts.shareTechMono(
-                                            color: colorScheme.onBackground.withOpacity(0.4),
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        CompactQuantitySelector(
-                                          initialValue: quantity,
-                                          max: currentStock,
-                                          onChanged: (val) => setState(() => quantity = val),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Flexible(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "TOTAL",
-                                            style: GoogleFonts.shareTechMono(
-                                              color: colorScheme.onBackground.withOpacity(0.4),
-                                              fontSize: 9,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 1.0,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            "Rs $totalPriceString",
-                                            style: GoogleFonts.orbitron(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
-                                              color: colorScheme.onBackground,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ).animate().fadeIn(delay: 700.ms),
+                              ).animate().fadeIn(delay: 600.ms),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 120),
                       ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                  child: CustomButton(
-                    text: currentStock == 0 ? "OUT OF STOCK" : "ADD TO CART",
-                    color: currentStock == 0 ? Colors.grey : AppColors.navyBlue,
-                    onTap: () {
-                      if (currentStock == 0) {
-                        WarningDialog.show(
-                          context,
-                          title: "Unavailable",
-                          message: "This item is currently out of stock.",
-                        );
-                        return;
-                      }
-
-                      if (quantity > currentStock) {
-                        WarningDialog.show(
-                          context,
-                          title: "Stock Limit",
-                          message: "Only $currentStock items available in stock.",
-                        );
-                        return;
-                      }
-
-                      cartController.addProduct(product, quantity: quantity);
-                      setState(() {
-                        quantity = 1;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: AppColors.navyBlue,
-                          behavior: SnackBarBehavior.floating,
-                          content: Text(
-                            "ADDED TO CART",
-                            style: GoogleFonts.shareTechMono(color: Colors.white),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(25, 20, 25, 30),
+              decoration: BoxDecoration(
+                color: theme.scaffoldBackgroundColor.withOpacity(0.95),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    offset: const Offset(0, -5),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: colorScheme.surface,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.03),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove, size: 20),
+                          onPressed: () {
+                            if (quantity > 1) setState(() => quantity--);
+                          },
+                        ),
+                        Text(
+                          quantity.toString(),
+                          style: GoogleFonts.orbitron(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
                           ),
                         ),
-                      );
-                    },
-                    icon: Icons.shopping_cart_outlined,
+                        IconButton(
+                          icon: const Icon(Icons.add, size: 20),
+                          onPressed: () {
+                            if (quantity < currentStock) {
+                              setState(() => quantity++);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Only $currentStock items available in stock"),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.redAccent,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ).animate().fadeIn(delay: 800.ms).slideY(begin: 0.2, end: 0),
-              ],
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: currentStock == 0 
+                        ? null 
+                        : () {
+                            ref.read(cartProvider.notifier).addProduct(product, quantity: quantity);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Added $quantity ${product.name} to cart"),
+                                duration: const Duration(seconds: 2),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                      child: Container(
+                        height: 55,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: currentStock == 0
+                              ? [Colors.grey, Colors.grey.shade700]
+                              : [AppColors.lightGreen, AppColors.darkGreen],
+                          ),
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: (currentStock == 0 ? Colors.grey : AppColors.darkGreen).withOpacity(0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            currentStock == 0 ? "OUT OF STOCK" : "ADD TO CART // Rs $totalPriceString",
+                            style: GoogleFonts.orbitron(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -423,32 +436,25 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   Widget _buildInfoCard(IconData icon, String label, BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      width: 100,
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      width: (MediaQuery.of(context).size.width - 70) / 3,
+      padding: const EdgeInsets.symmetric(vertical: 15),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: theme.colorScheme.onBackground.withOpacity(0.05)),
       ),
       child: Column(
         children: [
-          Icon(icon, color: AppColors.lightGreen, size: 20),
-          const SizedBox(height: 6),
+          Icon(icon, color: AppColors.lightGreen, size: 24),
+          const SizedBox(height: 8),
           Text(
             label,
+            textAlign: TextAlign.center,
             style: GoogleFonts.shareTechMono(
-              fontSize: 9,
+              fontSize: 8,
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.onBackground.withOpacity(0.6),
             ),
-            textAlign: TextAlign.center,
           ),
         ],
       ),

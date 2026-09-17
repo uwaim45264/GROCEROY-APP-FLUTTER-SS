@@ -34,6 +34,7 @@ class CartProvider extends ChangeNotifier {
           price: item['price'],
           weight: item['weight'],
           imagePath: item['imagePath'],
+          category: item['category'] ?? 'Fruits',
         ),
         quantity: item['quantity'],
       ));
